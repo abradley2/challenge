@@ -1,0 +1,41 @@
+type Location {
+	lat: Float!,
+	lng: Float!
+}
+
+type User {
+	name: String!,
+	location: Location
+}
+
+type Event {
+	id: String!,
+	title: String!,
+	description: String!,
+	tags: [String]!,
+	start: Int!,
+	end: Int!,
+	location: Location,
+	participants: [User]!
+}
+
+type Query {
+	events: [Event],
+	token(username: String!): String
+}
+
+type Mutation {
+	createEvent(
+		title: String!,
+		description: String!,
+		tags: [String]!,
+		start: Int!,
+		end: Int!
+	): Event,
+	deleteEvent(id: String): String
+}
+
+schema {
+	query: Query,
+	mutation: Mutation
+}

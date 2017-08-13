@@ -1,0 +1,18 @@
+.lui-text-field {
+	margin-top: 20px;
+}
+
+.lui-text-field__input::placeholder {
+	font-size: .875rem;
+	transform: translateY(6px);
+}
+
+.lui-text-field__label {
+	transition: .25s;
+	transform: translateY(-8px);
+	position: absolute;
+}
+
+.lui-text-field__label--float-up {
+	transform: translateY(-20px);
+}

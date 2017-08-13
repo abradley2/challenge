@@ -1,0 +1,17 @@
+.lui-select-menu__menu {
+	overflow: hidden;
+	transition: .25s;
+	max-height: 0px;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	right: 0;
+}
+
+.lui-select-menu__menu--open {
+	overflow: auto;
+	top: 20px;
+	left: 0;
+	right: 0;
+	max-height: 300px;
+}

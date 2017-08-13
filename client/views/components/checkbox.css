@@ -1,0 +1,7 @@
+.lui-checkbox {
+	margin-bottom: -1px;
+}
+
+.lui-checkbox__check {
+	transition: .2s;
+}
