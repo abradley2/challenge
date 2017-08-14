@@ -1,0 +1,16 @@
+.is-selected .pika-button {
+	background: #19a974;
+}
+
+.pika-button:hover {
+	background: #19a974;
+}
+
+.is-today .pika-button {
+	color:  #19a974;
+	background-color: hsla(0,0%,100%,.5);
+}
+
+.pika-single {
+	margin-top: -16px;
+}

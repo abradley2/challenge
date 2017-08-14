@@ -5,10 +5,12 @@ const store = require('../../store')
 const layout = require('../layout')
 const geoAsk = require('../patterns/geo-ask')
 const textField = require('../components/text-field')
+const datepicker = require('../components/datepicker')
 
 const initialState = {
 	eventName: '',
-	eventTags: ''
+	eventTags: '',
+	eventStart: null
 }
 
 const handlers = {
@@ -73,6 +75,23 @@ function createEvent() {
 					})
 				)
 			])
+		]),
+		m('div', {
+			className: cn(rowContainer, 'mt5')
+		}, [
+			m(datepicker, {
+				label: 'Day of event',
+				onselect(dateVal) {
+					store.dispatch({
+						type: 'createEvent:setField',
+						field: 'eventStart',
+						value: dateVal
+					})
+				},
+				value: state.createEvent.eventStart ?
+					(new Date(state.createEvent.eventStart)).valueOf() :
+					''
+			})
 		]),
 		m(geoAsk, {
 			geolocation: state.user.geolocation,
