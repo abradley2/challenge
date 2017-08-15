@@ -19,7 +19,7 @@ function textField(vnode) {
 	} = vnode.attrs
 
 	return m('div', {
-		className: 'lui-text-field dib relative mh2'
+		className: 'lui-text-field dib relative mh2 pv2'
 	}, [
 		...(label ? [
 			m('label', {

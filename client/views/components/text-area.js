@@ -10,7 +10,7 @@ function textArea(vnode) {
 		labelClass
 	} = vnode.attrs
 
-	return m('div.mh2', [
+	return m('div.mh2.pv2', [
 		...(label ? [
 			m('label', {
 				onclick() {

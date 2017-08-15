@@ -11,7 +11,7 @@ function checkbox(vnode) {
 		onchange = Function.prototype
 	} = vnode.attrs
 
-	return m('div.dib.bb.b--green.mh2', {
+	return m('div.dib.bb.b--green.mh2.pv2', {
 		onclick() {
 			onchange(!value)
 		}

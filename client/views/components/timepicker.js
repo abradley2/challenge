@@ -1,25 +1,7 @@
 const m = require('mithril')
 const cn = require('classnames')
-const Pickaday = require('pikaday')
-const css = require('sheetify')
 
-css('pikaday/css/pikaday.css')
-css('./datepicker')
-
-function oncreate(vnode) {
-	const host = vnode.dom.querySelector('input')
-
-	vnode.state.picker = new Pickaday({
-		field: host,
-		format: 'MMMM D',
-		onSelect(date) {
-			vnode.attrs.onselect(date)
-			m.redraw()
-		}
-	})
-}
-
-function datepicker(vnode) {
+function timepicker(vnode) {
 	const {
 		value = '',
 		disabled,
@@ -44,7 +26,7 @@ function datepicker(vnode) {
 				)
 			}, [
 				label,
-				m('i.pl2.fa.fa-calendar-o')
+				m('i.pl2.fa.fa-clock-o')
 			])
 		] : []),
 		m('input', {
@@ -63,4 +45,4 @@ function datepicker(vnode) {
 	])
 }
 
-module.exports = {view: datepicker, oncreate}
+module.exports = {view: timepicker}

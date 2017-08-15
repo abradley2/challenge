@@ -52,7 +52,7 @@ function selectMenu(vnode) {
 		inputClass
 	} = vnode.attrs
 
-	return m('div.dib.lui-text-field.relative.mh2', {'data-onoutsideclick': true}, [
+	return m('div.dib.lui-text-field.relative.mh2.pv2', {'data-onoutsideclick': true}, [
 		m('div.pointer.relative', [
 			...(label ? [
 				m('label', {
