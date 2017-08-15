@@ -2,6 +2,7 @@ const m = require('mithril')
 const cn = require('classnames')
 const update = require('immutability-helper')
 const store = require('../../store')
+const {formatDate} = require('../../utils/date')
 const layout = require('../layout')
 const geoAsk = require('../patterns/geo-ask')
 const textField = require('../components/text-field')
@@ -55,7 +56,7 @@ function createEvent() {
 				m(textField, {
 					label: 'Tags',
 					value: state.createEvent.eventTags,
-					placeholder: 'Seperate, tags, by, commas',
+					placeholder: 'Seperate , tags , by , commas ,',
 					oninput(e) {
 						store.dispatch({
 							type: 'createEvent:setField',
@@ -81,15 +82,15 @@ function createEvent() {
 		}, [
 			m(datepicker, {
 				label: 'Day of event',
-				onselect(dateVal) {
+				onselect(date) {
 					store.dispatch({
 						type: 'createEvent:setField',
 						field: 'eventStart',
-						value: dateVal
+						value: date.valueOf()
 					})
 				},
 				value: state.createEvent.eventStart ?
-					(new Date(state.createEvent.eventStart)).valueOf() :
+					formatDate(new Date(state.createEvent.eventStart)) :
 					''
 			})
 		]),

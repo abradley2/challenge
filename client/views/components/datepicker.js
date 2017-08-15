@@ -13,7 +13,7 @@ function oncreate(vnode) {
 		field: host,
 		format: 'MMMM D',
 		onSelect(date) {
-			vnode.attrs.onselect((new Date(date)).valueOf())
+			vnode.attrs.onselect(date)
 			m.redraw()
 		}
 	})
