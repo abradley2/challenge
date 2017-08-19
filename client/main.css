@@ -2,3 +2,11 @@ body {
 	font-family: 'Avenir', sans-serif;
 	padding-top: 80px;
 }
+
+button:focus {
+	outline: 0;
+}
+
+input {
+	height: 40px;
+}

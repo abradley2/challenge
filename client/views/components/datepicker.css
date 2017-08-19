@@ -1,5 +1,6 @@
 .is-selected .pika-button {
 	background: #19a974;
+	box-shadow: none;
 }
 
 .pika-button:hover {

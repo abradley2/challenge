@@ -1,0 +1,17 @@
+.lui-switchbox {
+	height: 40px; /* universal input height */
+	width: 80px;
+}
+
+.lui-switchbox__slider {
+	position: absolute;
+	transition: .25s;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	width: 40px;
+}
+
+.lui-switchbox__slider--right {
+	left: 40px;
+}
