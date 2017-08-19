@@ -24,15 +24,31 @@ function toTwentyFourHours(hour, am) {
 	return 12 + hr
 }
 
+function toTwelveHours(hour) {
+	const hr = parseInt(hour, 10)
+	if (hr > 12) {
+		return hr - 12
+	}
+	if (hr === 0) {
+		return 12
+	}
+	return hr
+}
+
 function oninit(vnode) {
 	Object.assign(vnode.state, {
 		twelveHour: true,
-		am: true
+		am: vnode.attrs.hours <= 12
 	})
 }
 
 function oncreate(vnode) {
-	vnode.dom.querySelectorAll('input').forEach(field => {
+	const fields = vnode.dom.querySelectorAll('input')
+
+	fields[0].value = padLeft(toTwelveHours(vnode.attrs.hours))
+	fields[1].value = padLeft(vnode.attrs.minutes || 0)
+
+	fields.forEach(field => {
 		field.onfocus = function () {
 			this.value = ''
 		}
