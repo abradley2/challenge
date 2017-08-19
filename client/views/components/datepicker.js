@@ -26,7 +26,8 @@ function datepicker(vnode) {
 		placeholder,
 		inputClass,
 		label,
-		labelClass
+		labelClass,
+		validationText = ''
 	} = vnode.attrs
 
 	return m('div.lui-text-field.dib.relative.mh2.pv2', [
@@ -59,7 +60,8 @@ function datepicker(vnode) {
 			oninput() {
 
 			}
-		})
+		}),
+		m('div.h1.f6.orange', validationText)
 	])
 }
 

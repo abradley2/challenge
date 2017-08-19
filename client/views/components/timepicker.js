@@ -28,7 +28,8 @@ function timepicker(vnode) {
 		placeholder,
 		inputClass,
 		label,
-		labelClass
+		labelClass,
+		validationText = ''
 	} = vnode.attrs
 
 	return m('div.lui-text-field.dib.relative.mh2.pv2', [
@@ -79,7 +80,8 @@ function timepicker(vnode) {
 					vnode.state.am = (otherVal === 'AM')
 				}
 			})
-		])
+		]),
+		m('div.h1.f6.orange', validationText)
 	])
 }
 
