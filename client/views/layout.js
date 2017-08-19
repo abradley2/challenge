@@ -10,7 +10,7 @@ function layout(vnode) {
 		layoutClass = ''
 	} = vnode.attrs
 
-	return m('div', {
+	return m('div.pb5', {
 		className: cn(
 			'sans-serif avenir',
 			layoutClass

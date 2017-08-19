@@ -30,7 +30,7 @@ function navbar(vnode) {
 		navItem({icon: 'sign-in', label: 'Login', href: '#!/login'})
 	]
 
-	return m('div.shadow-1.flex.justify-between.fixed.top-0.left-0.right-0.h3.bg-green.white-90', [
+	return m('div.shadow-1.z-max.flex.justify-between.fixed.top-0.left-0.right-0.h3.bg-green.white-90', [
 		m('div.flex', [
 			navItem({icon: 'home', label: 'Home', href: '#!/'})
 		]),

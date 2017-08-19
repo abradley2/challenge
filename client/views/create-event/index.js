@@ -1,6 +1,7 @@
 const m = require('mithril')
 const cn = require('classnames')
 const update = require('immutability-helper')
+const startOfTomorrow = require('date-fns/start_of_tomorrow')
 const store = require('../../store')
 const {formatDate} = require('../../utils/date')
 const layout = require('../layout')
@@ -9,10 +10,13 @@ const textField = require('../components/text-field')
 const datepicker = require('../components/datepicker')
 const timepicker = require('../components/timepicker')
 
+const startDate = startOfTomorrow(new Date())
+
 const initialState = {
 	eventName: '',
 	eventTags: '',
-	eventStart: null
+	eventStartDate: startDate.toISOString(),
+	eventStartTime: ''
 }
 
 const handlers = {
@@ -31,6 +35,8 @@ function reducer(state = initialState, action) {
 
 function createEvent() {
 	const state = store.getState()
+
+	const eventStartDate = new Date(state.createEvent.eventStartDate)
 
 	const rowContainer = cn(
 		'flex flex-wrap',
@@ -87,18 +93,32 @@ function createEvent() {
 					onselect(date) {
 						store.dispatch({
 							type: 'createEvent:setField',
-							field: 'eventStart',
+							field: 'eventStartDate',
 							value: date.valueOf()
 						})
 					},
-					value: state.createEvent.eventStart ?
-						formatDate(new Date(state.createEvent.eventStart)) :
+					value: state.createEvent.eventStartDate ?
+						formatDate(eventStartDate) :
 						''
 				})
 			]),
 			m('div', [
 				m(timepicker, {
-					label: 'Time of event'
+					label: 'Time of event',
+					hours: eventStartDate.getHours(),
+					minutes: eventStartDate.getMinutes(),
+					onchange({hours, minutes}) {
+						const date = new Date(state.createEvent.eventStartDate)
+
+						date.setHours(hours)
+						date.setMinutes(minutes)
+
+						store.dispatch({
+							type: 'createEvent:setField',
+							field: 'eventStartDate',
+							value: date.valueOf()
+						})
+					}
 				})
 			])
 		]),

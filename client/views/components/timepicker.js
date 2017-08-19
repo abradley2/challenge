@@ -3,16 +3,39 @@ const cn = require('classnames')
 const switchBox = require('./switch-box')
 
 function padLeft(num) {
-	if (num.toString().length === 1) {
-		return `0${num}`
+	const n = parseInt(num, 10)
+	if (n.toString().length === 1) {
+		return `0${n}`
 	}
-	return num
+	return n
+}
+
+function toTwentyFourHours(hour, am) {
+	const hr = parseInt(hour, 10)
+	if (am) {
+		if (hr === 12) {
+			return 0
+		}
+		return hr
+	}
+	if (hr === 12) {
+		return 12
+	}
+	return 12 + hr
 }
 
 function oninit(vnode) {
 	Object.assign(vnode.state, {
 		twelveHour: true,
 		am: true
+	})
+}
+
+function oncreate(vnode) {
+	vnode.dom.querySelectorAll('input').forEach(field => {
+		field.onfocus = function () {
+			this.value = ''
+		}
 	})
 }
 
@@ -25,8 +48,22 @@ function timepicker(vnode) {
 		inputClass,
 		label,
 		labelClass,
-		validationText = ''
+		validationText = '',
+		onchange = Function.prototype
 	} = vnode.attrs
+
+	const resetInputs = () => {
+		const inputs = vnode.dom.querySelectorAll('input')
+
+		inputs[0].value = hours
+		inputs[1].value = minutes
+	}
+
+	const formatInputs = ({hours, minutes}) => {
+		const inputs = vnode.dom.querySelectorAll('input')
+		inputs[0].value = padLeft(hours)
+		inputs[1].value = padLeft(minutes)
+	}
 
 	return m('div.lui-text-field.dib.relative.mh2.pv2', [
 		...(label ? [
@@ -54,8 +91,33 @@ function timepicker(vnode) {
 					disabled && 'bg-black-10 b--dashed o-60',
 					inputClass
 				),
-				value: padLeft(hours),
-				placeholder: vnode.state.hasFocus ? '' : placeholder
+				placeholder: vnode.state.hasFocus ? '' : placeholder,
+				onchange(e) {
+					if (Number.isNaN(Number(e.target.value))) {
+						resetInputs()
+						return
+					}
+					if (Number(e.target.value) > 24) {
+						resetInputs()
+						onchange({hours, minutes})
+					}
+					if (Number(e.target.value) > 12 && vnode.state.twelveHour) {
+						resetInputs()
+						onchange({hours, minutes})
+					}
+
+					const value = {
+						hours: vnode.state.twelveHour	?
+							toTwentyFourHours(e.target.value, vnode.state.am) :
+							e.target.value,
+						minutes
+					}
+					onchange(value)
+					formatInputs({
+						hours: e.target.value,
+						minutes
+					})
+				}
 			}),
 			m('span.self-center', ':'),
 			m('input', {
@@ -65,18 +127,39 @@ function timepicker(vnode) {
 					disabled && 'bg-black-10 b--dashed o-60',
 					inputClass
 				),
-				value: padLeft(minutes),
-				placeholder: vnode.state.hasFocus ? '' : placeholder
+				placeholder: vnode.state.hasFocus ? '' : placeholder,
+				onchange(e) {
+					if (Number.isNaN(Number(e.target.value))) {
+						resetInputs()
+						return
+					}
+					if (Number(e.target.value) > 59) {
+						resetInputs()
+						return
+					}
+					onchange({
+						hours,
+						minutes: e.target.value
+					})
+				}
 			}),
 			m('div.relative', [
 				m('div.pointer.absolute.top--1.f7.green.w4.underline.ph2', {
 					onclick() {
 						vnode.state.twelveHour = !vnode.state.twelveHour
+						if (vnode.state.twelveHour && Number(hours) > 12) {
+							const value = {
+								hours: hours - 12,
+								minutes
+							}
+							formatInputs(value)
+							onchange(value)
+						}
 					}
 				}, [
 					vnode.state.twelveHour ?
-						'24 hour format' :
-						'12 hour format'
+						'Switch 24 hour' :
+						'Switch 12 hour'
 				]),
 				vnode.state.twelveHour ? m(switchBox, {
 					leftValue: 'AM',
@@ -92,4 +175,4 @@ function timepicker(vnode) {
 	])
 }
 
-module.exports = {view: timepicker, oninit}
+module.exports = {view: timepicker, oninit, oncreate}
