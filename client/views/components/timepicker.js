@@ -9,13 +9,9 @@ function padLeft(num) {
 	return num
 }
 
-const date = new Date(Date.UTC(2012, 11, 12, 3, 0, 0))
-const dateString = date.toLocaleTimeString()
-const twelveHour = Boolean(dateString.match(/am|pm/i) || date.toString().match(/am|pm/i))
-
 function oninit(vnode) {
 	Object.assign(vnode.state, {
-		twelveHour,
+		twelveHour: true,
 		am: true
 	})
 }
@@ -72,14 +68,25 @@ function timepicker(vnode) {
 				value: padLeft(minutes),
 				placeholder: vnode.state.hasFocus ? '' : placeholder
 			}),
-			m(switchBox, {
-				leftValue: 'AM',
-				rightValue: 'PM',
-				value: vnode.state.am ? 'AM' : 'PM',
-				onswitch(otherVal) {
-					vnode.state.am = (otherVal === 'AM')
-				}
-			})
+			m('div.relative', [
+				m('div.pointer.absolute.top--1.f7.green.w4.underline.ph2', {
+					onclick() {
+						vnode.state.twelveHour = !vnode.state.twelveHour
+					}
+				}, [
+					vnode.state.twelveHour ?
+						'24 hour format' :
+						'12 hour format'
+				]),
+				vnode.state.twelveHour ? m(switchBox, {
+					leftValue: 'AM',
+					rightValue: 'PM',
+					value: vnode.state.am ? 'AM' : 'PM',
+					onswitch(otherVal) {
+						vnode.state.am = (otherVal === 'AM')
+					}
+				}) : null
+			])
 		]),
 		m('div.h1.f6.orange', validationText)
 	])

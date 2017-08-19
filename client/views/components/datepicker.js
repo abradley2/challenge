@@ -52,6 +52,7 @@ function datepicker(vnode) {
 			className: cn(
 				'lui-text-field__input',
 				'input-reset outline-0 br-0 bl-0 bt-0 bb b--green black-90 pv2 black-90 f4 mw5',
+				'pointer',
 				disabled && 'bg-black-10 b--dashed o-60',
 				inputClass
 			),
