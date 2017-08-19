@@ -49,8 +49,17 @@ function oncreate(vnode) {
 	fields[1].value = padLeft(vnode.attrs.minutes || 0)
 
 	fields.forEach(field => {
+		let saveVal
+
 		field.onfocus = function () {
+			saveVal = this.value
 			this.value = ''
+		}
+
+		field.onblur = function () {
+			if (!this.value) {
+				this.value = saveVal
+			}
 		}
 	})
 }
@@ -60,7 +69,6 @@ function timepicker(vnode) {
 		hours = 12,
 		minutes = 0,
 		disabled,
-		placeholder,
 		inputClass,
 		label,
 		labelClass,
@@ -71,14 +79,14 @@ function timepicker(vnode) {
 	const resetInputs = () => {
 		const inputs = vnode.dom.querySelectorAll('input')
 
-		inputs[0].value = hours
-		inputs[1].value = minutes
-	}
-
-	const formatInputs = ({hours, minutes}) => {
-		const inputs = vnode.dom.querySelectorAll('input')
 		inputs[0].value = padLeft(hours)
 		inputs[1].value = padLeft(minutes)
+	}
+
+	const formatInputs = params => {
+		const inputs = vnode.dom.querySelectorAll('input')
+		inputs[0].value = padLeft(params.hours)
+		inputs[1].value = padLeft(params.minutes)
 	}
 
 	return m('div.lui-text-field.dib.relative.mh2.pv2', [
@@ -107,7 +115,6 @@ function timepicker(vnode) {
 					disabled && 'bg-black-10 b--dashed o-60',
 					inputClass
 				),
-				placeholder: vnode.state.hasFocus ? '' : placeholder,
 				onchange(e) {
 					if (Number.isNaN(Number(e.target.value))) {
 						resetInputs()
@@ -143,7 +150,6 @@ function timepicker(vnode) {
 					disabled && 'bg-black-10 b--dashed o-60',
 					inputClass
 				),
-				placeholder: vnode.state.hasFocus ? '' : placeholder,
 				onchange(e) {
 					if (Number.isNaN(Number(e.target.value))) {
 						resetInputs()
